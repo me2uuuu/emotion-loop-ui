@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotion Loop Ritual</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+    body {
+      background-color: black;
+      color: #39ffea;
+      font-family: 'VT323', monospace;
+      overflow: hidden;
+      margin: 0;
+    }
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+    .light {
+      fill: #39ffea;
+      filter: drop-shadow(0 0 10px #39ffea);
+    }
+    .node-label {
+      position: absolute;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .card {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 0;
+      font-size: 2rem;
+      border: 2px solid #39ffea;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.8);
+      color: #39ffea;
+      box-shadow: 0 0 20px #39ffea44;
+      cursor: pointer;
+      transition: box-shadow 0.3s;
+    }
+    .card:hover {
+      box-shadow: 0 0 30px #39ffea;
+    }
+    .system-log {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 1rem;
+      color: #39ffea;
+      opacity: 0.8;
+    }
+    .card-description {
+      position: absolute;
+      top: 75%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      color: #39ffea;
+      font-size: 1.1rem;
+      text-align: center;
+      opacity: 0;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="node-label" id="label1" style="top: 30%; left: 20%;">CODE: NN-131<br>STRANGE LOOP</div>
+  <div class="node-label" id="label2" style="top: 60%; left: 50%;">DESCRIPTION:<br>반복된 감정이 또 다른 감정을 만든다</div>
+  <div class="node-label" id="label3" style="top: 75%; left: 70%;">비밀 노드 감지<br>출력 확률 15%</div>
+  <div class="card" id="finalCard">[ECLIPSED CORE]</div>
+  <div class="card" id="secretCard">[SECRET CARD - ??]</div>
+  <div class="card-description" id="cardDescription">당신의 감정 코어는 어둠 속에서 숨겨진 본질을 반영합니다. <br>그 어둠은 당신이 마주할 준비가 되었을 때 열릴 것입니다.</div>
+  <div class="system-log" id="systemLog">[SYSTEM ONLINE] 감정 회로 접속 중...</div>
+
+  <audio id="bgm" loop>
+    <source src="https://cdn.pixabay.com/audio/2023/03/30/audio_59e1a4fb9a.mp3" type="audio/mp3">
+  </audio>
+
+  <svg viewBox="0 0 800 600">
+    <path id="emotionPath" d="M 100 300 C 200 100, 600 100, 700 300 C 600 500, 200 500, 100 300" stroke="#39ffea" fill="none" stroke-width="2" />
+    <circle id="particle" class="light" r="8" />
+  </svg>
+
+  <script>
+    gsap.registerPlugin(MotionPathPlugin);
+
+    document.body.addEventListener('click', () => {
+      const audio = document.getElementById("bgm");
+      if (audio.paused) {
+        audio.volume = 0.4;
+        audio.play();
+      }
+    }, { once: true });
+
+    const log = document.getElementById("systemLog");
+    const logMessages = [
+      "[LOG] 입자 진입 확인...",
+      "[LOG] 노드 1 분석 중...",
+      "[LOG] 감정 반복 패턴 감지됨...",
+      "[LOG] 불안정 노드 접근 중...",
+      "[LOG] 감정 코드 리추얼 진행 중..."
+    ];
+
+    let logIndex = 0;
+    const logInterval = setInterval(() => {
+      if (logIndex < logMessages.length) {
+        log.textContent = logMessages[logIndex];
+        logIndex++;
+      } else {
+        clearInterval(logInterval);
+      }
+    }, 1600);
+
+    function revealCard(cardId) {
+      gsap.to(`#${cardId}`, {
+        display: 'block',
+        opacity: 1,
+        scale: 1,
+        duration: 1,
+        ease: "back.out(1.7)"
+      });
+    }
+
+    gsap.to("#particle", {
+      duration: 8,
+      repeat: 0,
+      ease: "power1.inOut",
+      motionPath: {
+        path: "#emotionPath",
+        align: "#emotionPath",
+        autoRotate: true
+      },
+      onUpdate: function() {
+        const particle = document.querySelector("#particle");
+        const rect = particle.getBoundingClientRect();
+
+        const secretZoneX = window.innerWidth * 0.7;
+        const secretZoneY = window.innerHeight * 0.75;
+        const range = 30;
+
+        if (!window.secretChecked && Math.abs(rect.x - secretZoneX) < range && Math.abs(rect.y - secretZoneY) < range) {
+          window.secretChecked = true;
+          if (Math.random() < 0.15) {
+            revealCard("secretCard");
+            window.secretRevealed = true;
+            log.textContent = "[LOG] 비밀 카드 출력됨 :: [SECRET CARD - ??]";
+          } else {
+            log.textContent = "[LOG] 불안정 노드 통과 :: 비밀 카드 없음";
+          }
+        }
+      },
+      onComplete: () => {
+        if (!window.secretRevealed) {
+          revealCard("finalCard");
+          log.textContent = "[LOG] 리추얼 완료 :: [ECLIPSED CORE] 출력";
+        }
+      }
+    });
+
+    document.getElementById("finalCard").addEventListener("click", () => {
+      const desc = document.getElementById("cardDescription");
+      desc.style.display = "block";
+      gsap.fromTo(desc,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 1, ease: "power2.out" }
+      );
+    });
+  </script>
+</body>
+</html>
+
