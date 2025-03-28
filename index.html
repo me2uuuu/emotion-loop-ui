@@ -170,8 +170,8 @@
     document.getElementById("finalCard").addEventListener("click", () => {
       const desc = document.getElementById("cardDescription");
       desc.style.visibility = "visible";
-      gsap.fromTo(desc,
-        { opacity: 0, y: 10 },
+      gsap.set(desc, { y: 10 }); // ← 여기 추가!
+      gsap.to(desc,
         { opacity: 1, y: 0, duration: 1, ease: "power2.out" }
       );
     });
