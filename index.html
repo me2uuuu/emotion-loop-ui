@@ -71,6 +71,16 @@
       visibility: hidden;
       z-index: 9999;
     }
+    #finalCard {
+  cursor: pointer;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 10px #39ffea44; }
+  50% { box-shadow: 0 0 25px #39ffea; }
+  100% { box-shadow: 0 0 10px #39ffea44; }
+}
   </style>
 </head>
 <body>
@@ -166,15 +176,16 @@
         }
       }
     });
-
     document.getElementById("finalCard").addEventListener("click", () => {
-      const desc = document.getElementById("cardDescription");
-      desc.style.visibility = "visible";
-      gsap.set(desc, { opacity: 0, y: 10 }); // ✅ opacity: 0 추가!
-      gsap.to(desc,
-        { opacity: 1, y: 0, duration: 1, ease: "power2.out" }
-      );
-    });
+  const desc = document.getElementById("cardDescription");
+  desc.style.visibility = "visible";
+  desc.innerHTML = "당신의 감정 코어는 어둠에 가려져 있습니다.<br>루프가 끝나기 전에 그것을 마주할 수 있을까요?";
+  
+  gsap.set(desc, { opacity: 0, y: 10 });
+  gsap.to(desc, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" });
+
+  document.getElementById("systemLog").textContent = "[SYSTEM LOG] 감정 코어 해석 실행됨...";
+});
   </script>
 </body>
 </html>
