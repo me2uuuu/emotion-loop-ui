@@ -16,6 +16,7 @@
       overflow: hidden;
       margin: 0;
     }
+
     svg {
       position: absolute;
       top: 0;
@@ -23,16 +24,19 @@
       width: 100vw;
       height: 100vh;
     }
+
     .light {
       fill: #39ffea;
       filter: drop-shadow(0 0 10px #39ffea);
     }
+
     .node-label {
       position: absolute;
       font-size: 1.2rem;
       white-space: nowrap;
       pointer-events: none;
     }
+
     .card {
       position: absolute;
       top: 40%;
@@ -48,9 +52,11 @@
       cursor: pointer;
       transition: box-shadow 0.3s;
     }
+
     .card:hover {
       box-shadow: 0 0 30px #39ffea;
     }
+
     .system-log {
       position: absolute;
       bottom: 20px;
@@ -59,6 +65,7 @@
       color: #39ffea;
       opacity: 0.8;
     }
+
     .card-description {
       position: absolute;
       top: 75%;
@@ -71,10 +78,12 @@
       visibility: hidden;
       z-index: 9999;
     }
+
     #finalCard {
       cursor: pointer;
       animation: pulse 2s infinite;
     }
+
     @keyframes pulse {
       0% { box-shadow: 0 0 10px #39ffea44; }
       50% { box-shadow: 0 0 25px #39ffea; }
@@ -104,33 +113,6 @@
   <script>
     gsap.registerPlugin(MotionPathPlugin);
 
-    const log = document.getElementById("systemLog");
-    const finalCard = document.getElementById("finalCard");
-    const description = document.getElementById("cardDescription");
-
-    const cardTypes = [
-      {
-        code: "NN-101",
-        name: "[INTUNE]",
-        desc: "당신은 감정의 미세한 떨림에 즉각 반응합니다."
-      },
-      {
-        code: "NN-202",
-        name: "[VISUALIZER]",
-        desc: "당신의 감정은 이미지로 재구성됩니다."
-      },
-      {
-        code: "NN-303",
-        name: "[SOUND DRIFTER]",
-        desc: "소리 속에서 감정의 흐름을 추적합니다."
-      },
-      {
-        code: "NN-404",
-        name: "[TACTILE SEEKER]",
-        desc: "촉감에 반응하는 감정 회로가 활성화되었습니다."
-      }
-    ];
-
     document.body.addEventListener('click', () => {
       const audio = document.getElementById("bgm");
       if (audio.paused) {
@@ -139,6 +121,7 @@
       }
     }, { once: true });
 
+    const log = document.getElementById("systemLog");
     const logMessages = [
       "[LOG] 입자 진입 확인...",
       "[LOG] 노드 1 분석 중...",
@@ -166,6 +149,25 @@
         ease: "back.out(1.7)"
       });
     }
+
+    const emotionTypes = [
+      {
+        name: "INTUNE",
+        description: "당신은 내면의 주파수에 조율된 감각형 인간입니다."
+      },
+      {
+        name: "VISUALIZER",
+        description: "당신은 시각 정보를 통해 세계를 인식하는 감각형 인간입니다."
+      },
+      {
+        name: "SOUNDDRIFTER",
+        description: "소리의 흐름에 따라 감정을 떠올리는 공감각자입니다."
+      },
+      {
+        name: "TACTILE SEEKER",
+        description: "촉각을 통해 현실을 느끼고 감정을 읽어내는 타입입니다."
+      }
+    ];
 
     gsap.to("#particle", {
       duration: 8,
@@ -198,19 +200,26 @@
       onComplete: () => {
         if (!window.secretRevealed) {
           revealCard("finalCard");
-          log.textContent = "[LOG] 리추얼 완료 :: 감정 카드 출력 대기 중...";
+          log.textContent = "[LOG] 리추얼 완료 :: [ECLIPSED CORE] 출력";
         }
       }
     });
 
-    finalCard.addEventListener("click", () => {
-      const randomCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-      finalCard.textContent = `${randomCard.name}`;
-      description.style.visibility = "visible";
-      description.innerHTML = `${randomCard.desc}`;
-      gsap.set(description, { opacity: 0, y: 10 });
-      gsap.to(description, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" });
-      log.textContent = `[SYSTEM LOG] 감정 코드 리추얼 결과 :: ${randomCard.code} 출력됨`;
+    document.getElementById("finalCard").addEventListener("click", () => {
+      const desc = document.getElementById("cardDescription");
+      const systemLog = document.getElementById("systemLog");
+
+      const randomIndex = Math.floor(Math.random() * emotionTypes.length);
+      const selected = emotionTypes[randomIndex];
+
+      document.getElementById("finalCard").textContent = `[${selected.name}]`;
+      desc.innerHTML = selected.description;
+      desc.style.visibility = "visible";
+
+      gsap.set(desc, { opacity: 0, y: 10 });
+      gsap.to(desc, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out" });
+
+      systemLog.textContent = `[SYSTEM LOG] 감정 코드 [${selected.name}] 리추얼 실행됨...`;
     });
   </script>
 </body>
