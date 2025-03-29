@@ -113,6 +113,26 @@
   <script>
     gsap.registerPlugin(MotionPathPlugin);
 
+    // 👁️‍🗨️ 전역에 감정 카드 타입 정의
+    const emotionTypes = [
+      {
+        name: "INTUNE",
+        description: "당신은 내면의 주파수에 조율된 감각형 인간입니다."
+      },
+      {
+        name: "VISUALIZER",
+        description: "당신은 시각 정보를 통해 세계를 인식하는 감각형 인간입니다."
+      },
+      {
+        name: "SOUNDDRIFTER",
+        description: "소리의 흐름에 따라 감정을 떠올리는 공감각자입니다."
+      },
+      {
+        name: "TACTILE SEEKER",
+        description: "촉각을 통해 현실을 느끼고 감정을 읽어내는 타입입니다."
+      }
+    ];
+
     document.body.addEventListener('click', () => {
       const audio = document.getElementById("bgm");
       if (audio.paused) {
@@ -149,25 +169,6 @@
         ease: "back.out(1.7)"
       });
     }
-
-    const emotionTypes = [
-      {
-        name: "INTUNE",
-        description: "당신은 내면의 주파수에 조율된 감각형 인간입니다."
-      },
-      {
-        name: "VISUALIZER",
-        description: "당신은 시각 정보를 통해 세계를 인식하는 감각형 인간입니다."
-      },
-      {
-        name: "SOUNDDRIFTER",
-        description: "소리의 흐름에 따라 감정을 떠올리는 공감각자입니다."
-      },
-      {
-        name: "TACTILE SEEKER",
-        description: "촉각을 통해 현실을 느끼고 감정을 읽어내는 타입입니다."
-      }
-    ];
 
     gsap.to("#particle", {
       duration: 8,
@@ -211,6 +212,8 @@
 
       const randomIndex = Math.floor(Math.random() * emotionTypes.length);
       const selected = emotionTypes[randomIndex];
+
+      console.log("💡 카드 클릭됨:", selected.name);
 
       document.getElementById("finalCard").textContent = `[${selected.name}]`;
       desc.innerHTML = selected.description;
