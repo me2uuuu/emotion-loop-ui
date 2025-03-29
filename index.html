@@ -1,11 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emotion Loop Ritual</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+  <style>
+    /* 기존 스타일 그대로 */
+  </style>
+</head>
 <body>
-  <div id="finalCard">[ECLIPSED CORE]</div>
-  <script>
-    document.getElementById("finalCard").addEventListener("click", () => {
-      alert("Clicked!");
-    });
-  </script>
+  <div class="node-label" style="top: 30%; left: 20%;">CODE: NN-131<br>STRANGE LOOP</div>
+  <div class="node-label" style="top: 60%; left: 50%;">DESCRIPTION:<br>반복된 감정이 또 다른 감정을 만든다</div>
+  <div class="node-label" style="top: 75%; left: 70%;">비밀 노드 감지<br>출력 확률 15%</div>
+
+  <div class="card" id="finalCard">[ECLIPSED CORE]</div>
+  <div class="card" id="secretCard">[SECRET CARD - ??]</div>
+  <div class="card-description" id="cardDescription"></div>
+  <div class="system-log" id="systemLog">[SYSTEM ONLINE] 감정 회로 접속 중...</div>
+
+  <audio id="bgm" loop>
+    <source src="https://cdn.pixabay.com/audio/2023/03/30/audio_59e1a4fb9a.mp3" type="audio/mp3">
+  </audio>
+
+  <svg viewBox="0 0 800 600">
+    <path id="emotionPath" d="M 100 300 C 200 100, 600 100, 700 300 C 600 500, 200 500, 100 300" stroke="#39ffea" fill="none" stroke-width="2" />
+    <circle id="particle" class="light" r="8" />
+  </svg>
+
+  <script src="./script.js"></script>
 </body>
 </html>
